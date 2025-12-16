@@ -44,7 +44,7 @@ const App = () => {
       message.error("请输入内容");
       return;
     }
-    const list = input.split(/\n/);
+    const list = input.split(/\r?\n/);
     if (!list.length) {
       message.error("请输入内容");
       return;
