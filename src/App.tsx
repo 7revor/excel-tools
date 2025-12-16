@@ -4,7 +4,7 @@ import { Button, Input, message, Radio } from "antd";
 
 interface Option {
   label: string;
-  value: "custom" | "delSpace";
+  value: "custom" | "delSpace" | "reverse" | "trim";
   code: string;
 }
 const options: Option[] = [
@@ -12,6 +12,16 @@ const options: Option[] = [
     label: "去空格",
     value: "delSpace",
     code: "list.map(item => item.replace(/\\s/g, ''))",
+  },
+  {
+    label: "去首尾空格",
+    value: "trim",
+    code: "list.map(item => item.trim())",
+  },
+  {
+    label: "取反",
+    value: "reverse",
+    code: "list.map(item => isNaN(item) ? item : Number(item) * -1)",
   },
   {
     label: "自定义",
@@ -22,10 +32,14 @@ const options: Option[] = [
 
 const App = () => {
   const [input, setInput] = useState("");
-  const [opt, setOpt] = useState<Option["value"]>("custom");
-  const [code, setCode] = useState("");
+  const [opt, setOpt] = useState<Option["value"]>("delSpace");
+  const [code, setCode] = useState(options.find((item) => item.value === opt)?.code || "");
   const [result, setResult] = useState("");
   const onGenerate = () => {
+    if (!code) {
+      message.error("请选择操作或输入自定义代码");
+      return;
+    }
     if (!input) {
       message.error("请输入内容");
       return;
@@ -45,6 +59,7 @@ const App = () => {
     } catch (error) {
       setResult("");
       message.error(`代码错误: ${error instanceof Error ? error.message : "未知错误"}`);
+      console.error(error);
     }
   };
   return (
@@ -61,7 +76,6 @@ const App = () => {
         </div>
         <div className="opt-container">
           <Radio.Group
-            block
             options={options}
             defaultValue={opt}
             optionType="button"
@@ -70,13 +84,7 @@ const App = () => {
               setCode(options.find((item) => item.value === e.target.value)?.code || "");
             }}
           />
-          <Input.TextArea
-            disabled={opt !== "custom"}
-            className="input-textarea"
-            rows={10}
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-          />
+          <Input.TextArea className="input-textarea" rows={10} value={code} onChange={(e) => setCode(e.target.value)} />
         </div>
       </div>
       <div className="opt-container">
