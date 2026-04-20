@@ -4,40 +4,120 @@ body,
   margin: 0;
   padding: 0;
   width: 100%;
-  height: 100%;
-  overflow: hidden;
+  min-height: 100%;
+  overflow: auto;
+  background: #f5f7fb;
 }
 
 .app {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
-  padding: 24px;
+  align-items: stretch;
+  gap: 20px;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 28px 24px 32px;
+  box-sizing: border-box;
 }
+
 .opt-block {
   display: flex;
-  flex-direction: row;
+  flex-wrap: wrap;
   justify-content: flex-start;
   align-items: flex-start;
-  column-gap: 24px;
+  gap: 24px;
 }
 
 .opt-container {
-  width: 400px;
+  flex: 1 1 320px;
+  min-width: 320px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: stretch;
+  padding: 16px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
 }
+
+.opt-actions {
+  margin-top: 0;
+}
+
 .opt-title {
-  font-weight: bold;
-  line-height: 30px;
+  margin-bottom: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: #1f2937;
 }
+
+.operation-options {
+  width: 100%;
+  margin-bottom: 4px;
+}
+
+.operation-options :where(.ant-radio-group) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
 .input-textarea {
   width: 100%;
-  margin-top: 12px;
+  margin-top: 8px;
 }
+
+.input-textarea :where(.ant-input) {
+  border-radius: 10px;
+  border-color: #d0d7e2;
+  padding: 10px 12px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input-textarea :where(.ant-input:hover) {
+  border-color: #9db5ff;
+}
+
+.input-textarea :where(.ant-input:focus),
+.input-textarea :where(.ant-input-focused) {
+  border-color: #1677ff;
+  box-shadow: 0 0 0 3px rgba(22, 119, 255, 0.12);
+}
+
 .code-font {
   font-family: "SF Mono", Menlo, Monaco, "Cascadia Code", Consolas, "Courier New", monospace;
+}
+
+.submit-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+.submit-row :where(.ant-btn) {
+  min-width: 92px;
+  height: 36px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .app {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .opt-block {
+    gap: 16px;
+  }
+
+  .opt-container {
+    min-width: 0;
+    padding: 14px;
+    border-radius: 12px;
+  }
 }

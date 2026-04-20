@@ -4,7 +4,16 @@ import { Button, Input, message, Radio } from "antd";
 
 interface Option {
   label: string;
-  value: "custom" | "delSpace" | "reverse" | "trim";
+  value:
+    | "collapseWhitespace"
+    | "custom"
+    | "dedupe"
+    | "delSpace"
+    | "removeBlank"
+    | "reverse"
+    | "stripListPrefix"
+    | "stripQuotes"
+    | "trim";
   code: string;
 }
 const commonSplit = `input.split(/\\r?\\n/)`;
@@ -19,6 +28,31 @@ const options: Option[] = [
     label: "去首尾空格",
     value: "trim",
     code: ".map(item => item.trim())",
+  },
+  {
+    label: "去空行",
+    value: "removeBlank",
+    code: ".filter(item => item.trim() !== '')",
+  },
+  {
+    label: "合并空白",
+    value: "collapseWhitespace",
+    code: ".map(item => item.replace(/\\s+/g, ' ').trim())",
+  },
+  {
+    label: "去序号/符号",
+    value: "stripListPrefix",
+    code: ".map(item => item.replace(/^\\s*(?:[-•*]|\\d+[.)、])\\s*/, ''))",
+  },
+  {
+    label: "去引号",
+    value: "stripQuotes",
+    code: ".map(item => item.replace(/^[\"']|[\"']$/g, ''))",
+  },
+  {
+    label: "去重",
+    value: "dedupe",
+    code: ".filter((item, index, arr) => arr.indexOf(item) === index)",
   },
   {
     label: "取反",
@@ -84,22 +118,26 @@ const App = () => {
           <Input.TextArea className="input-textarea" rows={10} value={result} />
         </div>
       </div>
-      <div className="opt-container" style={{ marginTop: "24px" }}>
-        <Radio.Group
-          options={options}
-          defaultValue={opt}
-          optionType="button"
-          onChange={(e) => setOpt(e.target.value)}
-        />
+      <div className="opt-container opt-actions">
+        <div className="operation-options">
+          <Radio.Group
+            options={options}
+            defaultValue={opt}
+            optionType="button"
+            onChange={(e) => setOpt(e.target.value)}
+          />
+        </div>
         <Input.TextArea
           className="input-textarea code-font"
           rows={10}
           value={customCode}
           onChange={(e) => setCustomCode(e.target.value)}
         />
-        <Button type="primary" style={{ marginTop: "12px" }} onClick={onGenerate}>
-          生成
-        </Button>
+        <div className="submit-row">
+          <Button type="primary" onClick={onGenerate}>
+            生成
+          </Button>
+        </div>
       </div>
     </div>
   );
