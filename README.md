@@ -1,73 +1,77 @@
-# React + TypeScript + Vite
+# Excel Tools
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+一个用于处理多行文本和表格列数据的轻量前端工具，适合清洗从 Excel、Google Sheets、数据库结果或任意列表中复制出来的内容。
 
-Currently, two official plugins are available:
+项目基于 React + TypeScript + Vite + Ant Design，实现为纯前端页面，输入内容后可直接选择内置操作或编辑自定义代码，生成结果会自动复制到剪贴板。
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 功能
 
-## React Compiler
+### 内置操作
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+当前内置了这些常用操作：
 
-## Expanding the ESLint configuration
+- 去空格
+- 去首尾空格
+- 去空行
+- 合并空白
+- 去序号/符号
+- 去引号
+- 去重
+- 取反
+- 自定义
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 使用方式
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+1. 在输入框粘贴多行文本。
+2. 选择一个内置操作，或在代码框中直接修改处理逻辑。
+3. 点击“生成”。
+4. 查看输出结果，结果会自动复制到剪贴板。
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+默认处理思路是：
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- 按行拆分输入
+- 对每一行或整组数据执行链式处理
+- 最后再按换行拼接成结果
+
+## 本地开发
+
+安装依赖：
+
+```bash
+pnpm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+启动开发环境：
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+pnpm dev
 ```
+
+生产构建：
+
+```bash
+pnpm build
+```
+
+代码检查：
+
+```bash
+pnpm lint
+```
+
+本地预览构建结果：
+
+```bash
+pnpm preview
+```
+
+## 技术栈
+
+- React 19
+- TypeScript
+- Vite
+- Ant Design
+
+## 说明
+
+当前“自定义”能力基于浏览器端执行动态代码，适合个人本地文本处理场景。使用自定义代码时，请只执行自己确认过的处理逻辑。
