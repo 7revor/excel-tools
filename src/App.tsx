@@ -16,6 +16,7 @@ interface Option {
     | "trim";
   code: string;
 }
+const githubUrl = "https://github.com/7revor/excel-tools";
 const commonSplit = `input.split(/\\r?\\n/)`;
 const commonJoin = `.join("\\n")`;
 const options: Option[] = [
@@ -102,6 +103,15 @@ const App = () => {
   };
   return (
     <div className="app">
+      <div className="app-header">
+        <div>
+          <div className="app-title">Excel Tools</div>
+          <div className="app-subtitle">多行文本与表格列数据处理工具</div>
+        </div>
+        <a className="github-link" href={githubUrl} target="_blank" rel="noreferrer">
+          GitHub
+        </a>
+      </div>
       <div className="opt-block">
         <div className="opt-container">
           <div className="opt-title">输入</div>
